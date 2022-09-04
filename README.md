@@ -34,16 +34,16 @@ Clone the repository and `go run Einstein.go`.
 
 ### Endpoints
 
-| Method | Path                                                        | Purpose                       |
-|--------|-------------------------------------------------------------|-------------------------------|
-| GET    | `/api/v<>/plugins/webapp`                                   | Pulse/Heartbeat               |
-| POST   | `/api/v<>/users/status/ids`                                 | Retrieve job for client       |
-| POST   | `/api/v<>/users/ids?since=<unix_timestamp_in_milliseconds>` | Retrieve response from client |
-| GET    | `/static/<>.js`                                             | File transfer                 |
+| Method | Path                                                        | Purpose                          |
+|--------|-------------------------------------------------------------|----------------------------------|
+| GET    | `/api/v<>/plugins/webapp`                                   | Pulse/Heartbeat                  |
+| POST   | `/api/v<>/users/status/ids`                                 | Retrieve job for client          |
+| POST   | `/api/v<>/users/ids?since=<unix_timestamp_in_milliseconds>` | Retrieve job results from client |
+| GET    | `/static/<>.js`                                             | File transfer                    |
 
 ### Misc
 
 - Client's unique ID and name is transmitted through a combination of the `MMAUTHTOKEN`, `MMUSERID`, and `MMCSRF` HTTP Cookie values
 - Data transmitted is usually AES-128-GCM-encrypted and then ZBase32-encoded except in the case of file transfers where it is Base64-encoded after encryption instead
     - For file transfers, the final encoded data is smuggled via a minified JavaScript file used by Mattermost
-    - For responses to jobs, the final encoded data is split into chunks across multiple Mattermost `status` structures where the data resides in the `UserId` field and the `Status` field will discreetly indicate the type of job to the client 
+    - For job retrieval for client, the final encoded data is split into chunks across multiple Mattermost `status` structures where the data resides in the `UserId` field and the `Status` field will discreetly indicate the type of job to the client 
