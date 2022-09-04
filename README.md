@@ -34,15 +34,16 @@ Clone the repository and `go run Einstein.go`.
 
 ### Endpoints
 
-| Method | Path                                                        | Purpose                          |
-|--------|-------------------------------------------------------------|----------------------------------|
-| GET    | `/api/v<>/plugins/webapp`                                   | Pulse/Heartbeat                  |
-| POST   | `/api/v<>/users/status/ids`                                 | Retrieve job for client          |
-| POST   | `/api/v<>/users/ids?since=<unix_timestamp_in_milliseconds>` | Retrieve job results from client |
-| GET    | `/static/<>.js`                                             | File transfer                    |
+| Method | Path                                                        | Purpose                                                                     |
+|--------|-------------------------------------------------------------|-----------------------------------------------------------------------------|
+| GET    | `/api/v<>/plugins/webapp`                                   | Initial beacon to register client & commence checking for pulses/heartbeats |
+| POST   | `/api/v<>/users/status/ids`                                 | Poll for and retrieve jobs for client + register pulse                      |
+| POST   | `/api/v<>/users/ids?since=<unix_timestamp_in_milliseconds>` | Retrieve job results from client                                            |
+| GET    | `/static/<>.js`                                             | File transfer to client                                                     |
 
 ### Misc
 
+- Coded against Mattermost Server 6.6.1
 - Client's unique ID and name is transmitted through a combination of the `MMAUTHTOKEN`, `MMUSERID`, and `MMCSRF` HTTP Cookie values
 - Data transmitted is usually AES-128-GCM-encrypted and then ZBase32-encoded except in the case of file transfers where it is Base64-encoded after encryption instead
     - For file transfers, the final encoded data is smuggled via a minified JavaScript file used by Mattermost
